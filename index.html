@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#050505">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SNOONU HACKATHON 2026 | CODE. CREATE. CONQUER.</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Industrial Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'snoonu-black': '#050505',
+                        'snoonu-red': '#E31E24',
+                        'snoonu-red-glow': '#FF0000',
+                        'metal-light': '#E5E7EB',
+                        'metal-mid': '#9CA3AF',
+                        'metal-dark': '#4B5563',
+                        'glass-bg': 'rgba(20, 20, 20, 0.7)',
+                        'glass-border': 'rgba(229, 231, 235, 0.15)',
+                    },
+                    fontFamily: {
+                        'display': ['Bebas Neue', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'body': ['Space Grotesk', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glitch': 'glitch 0.3s ease-in-out',
+                        'scan': 'scan 8s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ========================================
+           BASE STYLES & CUSTOM PROPERTIES
+           ======================================== */
+        :root {
+            --snoonu-red: #E31E24;
+            --snoonu-red-glow: #FF0000;
+            --metal-light: #E5E7EB;
+            --glass-bg: rgba(20, 20, 20, 0.7);
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--snoonu-red) #050505;
+        }
+
+        *::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: var(--snoonu-red);
+            border-radius: 3px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #050505;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           LINE CLAMP UTILITY
+           ======================================== */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:line-clamp-3 {
+                -webkit-line-clamp: 3;
+            }
+        }
+
+        /* ========================================
+           GLASSMORPHISM EFFECTS
+           ======================================== */
+        .glass {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.15);
+        }
+
+        .glass-stronger {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(229, 231, 235, 0.2);
+        }
+
+        /* ========================================
+           GLITCH EFFECT (Button Hover)
+           ======================================== */
+        .glitch-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glitch-btn::before,
+        .glitch-btn::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .glitch-btn::before {
+            color: #00ffff;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch-btn::after {
+            color: #ff00ff;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+
+        .glitch-btn:hover::before {
+            animation: glitchTop 0.3s ease-in-out;
+            opacity: 1;
+        }
+
+        .glitch-btn:hover::after {
+            animation: glitchBottom 0.3s ease-in-out;
+            opacity: 1;
+        }
+
+        @keyframes glitchTop {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-3px, -2px);
+            }
+
+            40% {
+                transform: translate(3px, 2px);
+            }
+
+            60% {
+                transform: translate(-2px, 1px);
+            }
+
+            80% {
+                transform: translate(2px, -1px);
+            }
+        }
+
+        @keyframes glitchBottom {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(3px, 2px);
+            }
+
+            40% {
+                transform: translate(-3px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, -1px);
+            }
+
+            80% {
+                transform: translate(-2px, 1px);
+            }
+        }
+
+        /* ========================================
+           GLOW EFFECTS (Subtle)
+           ======================================== */
+        .text-glow {
+            text-shadow: 0 0 8px rgba(227, 30, 36, 0.4),
+                0 0 16px rgba(227, 30, 36, 0.2);
+        }
+
+        .box-glow {
+            box-shadow: 0 0 10px rgba(227, 30, 36, 0.15),
+                0 0 20px rgba(227, 30, 36, 0.08);
+        }
+
+        .border-glow {
+            box-shadow: inset 0 0 15px rgba(227, 30, 36, 0.05),
+                0 0 12px rgba(227, 30, 36, 0.1);
+        }
+
+        @keyframes pulseGlow {
+
+            0%,
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 6px rgba(227, 30, 36, 0.3), 0 0 12px rgba(227, 30, 36, 0.15);
+            }
+
+            50% {
+                opacity: 0.95;
+                text-shadow: 0 0 10px rgba(227, 30, 36, 0.4), 0 0 20px rgba(227, 30, 36, 0.2);
+            }
+        }
+
+        /* ========================================
+           SCROLL REVEAL ANIMATIONS
+           ======================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Stagger delays */
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        .delay-400 {
+            transition-delay: 400ms;
+        }
+
+        /* ========================================
+           CARD HOVER EFFECTS
+           ======================================== */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-hover:hover {
+            border-color: var(--snoonu-red) !important;
+            box-shadow: 0 0 15px rgba(227, 30, 36, 0.12),
+                inset 0 0 20px rgba(227, 30, 36, 0.03);
+            transform: translateY(-4px);
+        }
+
+        /* ========================================
+           SCANLINE OVERLAY (Hero Background)
+           ======================================== */
+        .scanlines::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.1) 0px,
+                    rgba(0, 0, 0, 0.1) 1px,
+                    transparent 1px,
+                    transparent 3px);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes scan {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100vh;
+            }
+        }
+
+        /* ========================================
+           COUNTDOWN DIGIT STYLING
+           ======================================== */
+        .countdown-digit {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.05em;
+        }
+
+        /* ========================================
+           MOBILE NAV FLOATING ISLAND
+           ======================================== */
+        .floating-nav {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* ========================================
+           GRID BACKGROUND PATTERN
+           ======================================== */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(156, 163, 175, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(156, 163, 175, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ========================================
+           RESPONSIVE UTILITIES
+           ======================================== */
+        @media (max-width: 768px) {
+            .floating-nav {
+                animation: none;
+            }
+        }
+
+        /* ========================================
+           MOBILE OPTIMIZATIONS
+           ======================================== */
+
+        /* Safe area support for notched phones */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .floating-nav {
+                padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+                margin-bottom: env(safe-area-inset-bottom);
+            }
+
+            body {
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
+            }
+        }
+
+        /* Extra small screens (< 375px) */
+        @media (max-width: 374px) {
+            .countdown-digit {
+                font-size: 2.5rem !important;
+            }
+
+            .hero-headline {
+                font-size: 3rem !important;
+            }
+
+            .hero-subhead {
+                letter-spacing: 0.15em !important;
+                font-size: 0.875rem !important;
+            }
+
+            .info-stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .info-stats>div {
+                flex: 1 1 30%;
+            }
+
+            .info-stats .divider {
+                display: none;
+            }
+        }
+
+        /* Small screens (375px - 640px) */
+        @media (min-width: 375px) and (max-width: 639px) {
+            .countdown-digit {
+                font-size: 2.75rem;
+            }
+        }
+
+        /* Larger touch targets for mobile */
+        @media (max-width: 768px) {
+            .floating-nav a {
+                padding: 0.5rem;
+                min-width: 44px;
+                min-height: 44px;
+            }
+
+            input,
+            select,
+            button {
+                min-height: 48px;
+            }
+
+            /* Prevent zoom on input focus (iOS) */
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+
+        /* Dark mode optimization (most phones) */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: dark;
+            }
+        }
+
+        /* Better focus states for accessibility */
+        *:focus-visible {
+            outline: 2px solid var(--snoonu-red);
+            outline-offset: 2px;
+        }
+
+        /* Prevent horizontal scroll on body */
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+    </style>
+</head>
+
+<body class="bg-snoonu-black text-white min-h-screen grid-bg pb-24 md:pb-0">
+
+    <!-- ==========================================
+         DESKTOP NAVIGATION (Sticky Top)
+         ========================================== -->
+    <nav class="hidden md:flex fixed top-0 left-0 right-0 z-50 glass-stronger">
+        <div class="w-full px-6 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-4 group">
+                <img src="assets/Group 4 (1).png" alt="Snoonu Hackathon Logo" class="h-8 w-auto object-contain">
+            </a>
+
+            <!-- Nav Links -->
+            <div class="flex items-center gap-8">
+                <a href="#mission"
+                    class="font-mono text-sm text-metal-mid hover:text-snoonu-red transition-colors uppercase tracking-wider">Mission</a>
+                <a href="#tracks"
+                    class="font-mono text-sm text-metal-mid hover:text-snoonu-red transition-colors uppercase tracking-wider">Tracks</a>
+                <a href="#prizes"
+                    class="font-mono text-sm text-metal-mid hover:text-snoonu-red transition-colors uppercase tracking-wider">Prizes</a>
+
+                <!-- CTA Button -->
+                <a href="https://snoonu.onelink.me/U3EL/m9blm350" target="_blank" rel="noopener noreferrer"
+                    class="glitch-btn bg-snoonu-red text-white font-display text-lg px-6 py-2 tracking-wider hover:bg-snoonu-red-glow transition-all duration-300 box-glow"
+                    data-text="REGISTER">
+                    REGISTER
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         MOBILE NAVIGATION (Floating Island)
+         ========================================== -->
+    <nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 floating-nav">
+        <div class="glass-stronger rounded-full px-6 py-3 flex items-center gap-6">
+            <a href="#hero"
+                class="flex flex-col items-center gap-1 text-metal-mid hover:text-snoonu-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span class="font-mono text-[10px] uppercase">Home</span>
+            </a>
+            <a href="#tracks"
+                class="flex flex-col items-center gap-1 text-metal-mid hover:text-snoonu-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span class="font-mono text-[10px] uppercase">Tracks</span>
+            </a>
+            <a href="#prizes"
+                class="flex flex-col items-center gap-1 text-metal-mid hover:text-snoonu-red transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="font-mono text-[10px] uppercase">Prizes</span>
+            </a>
+            <a href="https://snoonu.onelink.me/U3EL/m9blm350" target="_blank" rel="noopener noreferrer"
+                class="flex flex-col items-center gap-1 text-snoonu-red">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                <span class="font-mono text-[10px] uppercase font-semibold">Register</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section id="hero" class="relative pb-8 md:pb-12 flex items-center justify-center overflow-hidden scanlines">
+
+        <!-- 
+             ==========================================
+             BACKGROUND: Insert video/image here
+             Options:
+             1. Replace with <video> tag for video bg
+             2. Add background-image to this div
+             ==========================================
+        -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden">
+            <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover"
+                style="object-position: 75% center;">
+                <source src="assets/horizontal.mp4" type="video/mp4">
+            </video>
+
+            <!-- Gradient overlay for depth and text readability -->
+            <div class="absolute inset-0 bg-gradient-to-t from-snoonu-black via-snoonu-black/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-snoonu-black/40"></div>
+
+            <!-- Red accent glow (subtle) -->
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-snoonu-red/10 rounded-full blur-3xl mix-blend-overlay">
+            </div>
+            <div
+                class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-snoonu-red/5 rounded-full blur-3xl mix-blend-overlay">
+            </div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20 md:pt-0">
+
+            <!-- Pre-headline Badge -->
+            <div class="reveal inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-8">
+                <span class="w-2 h-2 bg-snoonu-red rounded-full animate-pulse"></span>
+                <span class="font-mono text-xs text-metal-light uppercase tracking-widest">January 2026 • Doha,
+                    Qatar</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="reveal delay-100 font-display leading-none tracking-tight mb-6">
+                <span class="block text-white text-5xl sm:text-6xl md:text-8xl lg:text-9xl hero-headline">SNOONU</span>
+                <span class="block text-snoonu-red text-glow text-5xl sm:text-6xl md:text-8xl lg:text-9xl hero-headline"
+                    style="animation: pulseGlow 2s ease-in-out infinite;">HACKATHON</span>
+                <span class="block text-metal-light text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">2026</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p
+                class="reveal delay-200 font-mono text-base sm:text-lg md:text-xl lg:text-2xl text-metal-mid tracking-[0.2em] sm:tracking-[0.3em] mb-10 md:mb-12 hero-subhead">
+                CODE<span class="text-snoonu-red mx-1 sm:mx-2">.</span>CREATE<span
+                    class="text-snoonu-red mx-1 sm:mx-2">.</span>CONQUER<span class="text-snoonu-red">.</span>
+            </p>
+
+            <!-- CTA Button -->
+            <div class="reveal delay-300">
+                <a href="https://snoonu.onelink.me/U3EL/m9blm350" target="_blank" rel="noopener noreferrer"
+                    class="glitch-btn inline-block bg-snoonu-red text-white font-display text-xl sm:text-2xl px-10 py-4 tracking-wider hover:bg-snoonu-red-glow transition-all duration-300 box-glow"
+                    data-text="REGISTER NOW →">
+                    REGISTER NOW →
+                </a>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!-- ==========================================
+         INFO GRID SECTION
+         ========================================== -->
+    <section id="mission" class="pt-4 pb-12 md:pt-8 md:pb-20 px-6">
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Section Header -->
+            <div class="reveal text-center mb-16">
+                <span class="font-mono text-snoonu-red text-sm tracking-widest">// ABOUT THE EVENT</span>
+            </div>
+
+            <!-- Info Cards Grid -->
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+
+                <!-- Card: The Mission -->
+                <div class="reveal-left glass card-hover rounded-lg p-8 md:p-10 border border-glass-border">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 bg-snoonu-red/10 border border-snoonu-red/30 rounded flex items-center justify-center">
+                            <svg class="w-6 h-6 text-snoonu-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-mono text-xs text-metal-mid tracking-widest">01</span>
+                            <h3 class="font-display text-3xl text-white tracking-wide">THE MISSION</h3>
+                        </div>
+                    </div>
+                    <p class="font-body text-metal-light leading-relaxed text-lg">
+                        Build the future of Qatar's digital ecosystem. Join innovators for <span
+                            class="text-snoonu-red font-semibold">3 days</span> of creation, collaboration,
+                        and competition. Transform ideas into working prototypes that could reshape industries.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-glass-border">
+                        <div
+                            class="info-stats flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-0">
+                            <div class="text-center px-2 sm:px-0 sm:pr-4">
+                                <span class="font-display text-2xl sm:text-3xl text-snoonu-red">3</span>
+                                <span class="block font-mono text-[10px] sm:text-xs text-metal-mid">DAYS</span>
+                            </div>
+                            <div class="divider hidden sm:block w-px h-10 bg-glass-border mx-4"></div>
+                            <div class="text-center px-2 sm:px-0">
+                                <span class="font-display text-2xl sm:text-3xl text-snoonu-red">160</span>
+                                <span class="block font-mono text-[10px] sm:text-xs text-metal-mid">PARTICIPANTS</span>
+                            </div>
+                            <div class="divider hidden sm:block w-px h-10 bg-glass-border mx-4"></div>
+                            <div class="text-center px-2 sm:px-0 sm:pl-4">
+                                <span class="font-display text-2xl sm:text-3xl text-snoonu-red">100K QR</span>
+                                <span class="block font-mono text-[10px] sm:text-xs text-metal-mid">PRIZES</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Who Can Join -->
+                <div class="reveal-right glass card-hover rounded-lg p-8 md:p-10 border border-glass-border">
+                    <div class="flex items-start gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 bg-snoonu-red/10 border border-snoonu-red/30 rounded flex items-center justify-center">
+                            <svg class="w-6 h-6 text-snoonu-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="font-mono text-xs text-metal-mid tracking-widest">02</span>
+                            <h3 class="font-display text-3xl text-white tracking-wide">WHO CAN JOIN</h3>
+                        </div>
+                    </div>
+                    <p class="font-body text-metal-light leading-relaxed text-lg">
+                        University students and recent graduates with <span class="text-snoonu-red font-semibold">fire
+                            in their code</span>. Developers, designers, product thinkers, and anyone who dreams in
+                        algorithms. Solo participants welcome—we'll help you find a team.
+                    </p>
+                    <div class="mt-8 pt-6 border-t border-glass-border">
+                        <div class="flex flex-wrap gap-3">
+                            <span
+                                class="font-mono text-xs px-3 py-1 bg-snoonu-red/10 border border-snoonu-red/30 rounded text-snoonu-red">DEVELOPERS</span>
+                            <span
+                                class="font-mono text-xs px-3 py-1 bg-snoonu-red/10 border border-snoonu-red/30 rounded text-snoonu-red">DESIGNERS</span>
+                            <span
+                                class="font-mono text-xs px-3 py-1 bg-snoonu-red/10 border border-snoonu-red/30 rounded text-snoonu-red">STRATEGISTS</span>
+                            <span
+                                class="font-mono text-xs px-3 py-1 bg-snoonu-red/10 border border-snoonu-red/30 rounded text-snoonu-red">DREAMERS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         PRIZES SECTION (Podium Layout)
+         ========================================== -->
+    <section id="prizes" class="pt-4 pb-12 md:pt-8 md:pb-20 px-6 relative">
+
+        <!-- Background accent -->
+        <div
+            class="absolute inset-0 bg-gradient-to-b from-snoonu-black via-gray-900/20 to-snoonu-black pointer-events-none">
+        </div>
+
+        <div class="max-w-5xl mx-auto relative z-10">
+
+            <!-- Section Header -->
+            <div class="reveal text-center mb-16">
+                <span class="font-mono text-snoonu-red text-sm tracking-widest">// REWARDS</span>
+                <h2 class="font-display text-4xl md:text-6xl text-white mt-2">THE <span class="text-snoonu-red"
+                        style="text-shadow: 0 0 8px rgba(227, 30, 36, 0.3);">GLORY</span></h2>
+            </div>
+
+            <!-- Podium Grid -->
+            <div class="grid md:grid-cols-3 gap-6 items-end mb-12">
+
+                <!-- 2nd Place -->
+                <div class="reveal-left order-2 md:order-1">
+                    <div class="glass card-hover rounded-lg border border-glass-border p-8 text-center h-full">
+                        <div
+                            class="w-16 h-16 mx-auto mb-4 bg-metal-mid/20 border border-metal-mid/30 rounded-full flex items-center justify-center">
+                            <span class="font-display text-3xl text-metal-light">2</span>
+                        </div>
+                        <span class="font-mono text-xs text-metal-mid tracking-widest">SECOND PLACE</span>
+                        <div class="font-display text-4xl text-white mt-2 mb-4">24,000 QR</div>
+                        <ul class="space-y-2 text-left">
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Cash Prize
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Full-time Internships
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Web Summit Tickets (Full Team)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 1st Place (Center, Elevated) -->
+                <div class="reveal order-1 md:order-2">
+                    <div class="glass rounded-lg border-2 border-snoonu-red p-8 text-center relative"
+                        style="box-shadow: 0 0 20px rgba(227, 30, 36, 0.1), inset 0 0 30px rgba(227, 30, 36, 0.03);">
+                        <!-- Crown Badge -->
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-snoonu-red px-4 py-1 rounded-full">
+                            <span class="font-mono text-xs text-white tracking-widest">GRAND PRIZE</span>
+                        </div>
+                        <div class="w-20 h-20 mx-auto mb-4 mt-4 bg-snoonu-red/15 border border-snoonu-red/60 rounded-full flex items-center justify-center"
+                            style="box-shadow: 0 0 12px rgba(227, 30, 36, 0.15);">
+                            <span class="font-display text-4xl text-snoonu-red">1</span>
+                        </div>
+                        <span class="font-mono text-xs text-snoonu-red tracking-widest">FIRST PLACE</span>
+                        <div class="font-display text-5xl md:text-6xl text-white mt-2 mb-4"
+                            style="text-shadow: 0 0 10px rgba(227, 30, 36, 0.25);">50,000 QR</div>
+                        <ul class="space-y-2 text-left">
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1.5 h-1.5 bg-snoonu-red rounded-full"></span>
+                                Cash Prize
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1.5 h-1.5 bg-snoonu-red rounded-full"></span>
+                                Full-time Internships / Jobs
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1.5 h-1.5 bg-snoonu-red rounded-full"></span>
+                                Web Summit Tickets (Full Team)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3rd Place -->
+                <div class="reveal-right order-3">
+                    <div class="glass card-hover rounded-lg border border-glass-border p-8 text-center h-full">
+                        <div
+                            class="w-16 h-16 mx-auto mb-4 bg-amber-700/20 border border-amber-700/30 rounded-full flex items-center justify-center">
+                            <span class="font-display text-3xl text-amber-600">3</span>
+                        </div>
+                        <span class="font-mono text-xs text-metal-mid tracking-widest">THIRD PLACE</span>
+                        <div class="font-display text-4xl text-white mt-2 mb-4">12,000 QR</div>
+                        <ul class="space-y-2 text-left">
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Cash Prize
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Optional Internships
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Web Summit Tickets (Full Team)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Prizes -->
+            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <!-- Runner Up -->
+                <div class="reveal-up delay-100">
+                    <div class="glass card-hover rounded-lg border border-glass-border p-6 text-center h-full">
+                        <span class="font-mono text-xs text-metal-mid tracking-widest block mb-2">RUNNER-UP (3
+                            TEAMS)</span>
+                        <div class="font-display text-3xl text-white mb-4">4,000 QR</div>
+                        <ul class="space-y-2 text-left inline-block">
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Cash Prize
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Interviews at Snoonu
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Honorable Mention -->
+                <div class="reveal-up delay-200">
+                    <div class="glass card-hover rounded-lg border border-glass-border p-6 text-center h-full">
+                        <span class="font-mono text-xs text-metal-mid tracking-widest block mb-2">HONORABLE MENTION (2
+                            TEAMS)</span>
+                        <div class="font-display text-3xl text-white mb-4">1,000 QR</div>
+                        <ul class="space-y-2 text-left inline-block">
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Cash Prize
+                            </li>
+                            <li class="flex items-center gap-2 font-body text-sm text-metal-light">
+                                <span class="w-1 h-1 bg-snoonu-red rounded-full"></span>
+                                Interviews at Snoonu
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         COUNTDOWN SECTION
+         ========================================== -->
+    <section
+        class="py-12 md:py-16 border-y border-glass-border bg-gradient-to-r from-snoonu-black via-gray-900/50 to-snoonu-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="reveal flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
+
+                <!-- Label -->
+                <div class="text-center md:text-left">
+                    <span class="font-mono text-xs text-metal-mid tracking-widest block">EVENT STARTS IN</span>
+                    <span class="font-display text-lg text-white">COUNTDOWN</span>
+                </div>
+
+                <!-- Divider -->
+                <div class="hidden md:block w-px h-16 bg-glass-border"></div>
+
+                <!-- Countdown Digits -->
+                <div class="flex items-center gap-2 sm:gap-4 md:gap-8">
+                    <!-- Days -->
+                    <div class="text-center">
+                        <span id="days"
+                            class="countdown-digit font-display text-4xl sm:text-5xl md:text-7xl text-snoonu-red text-glow">00</span>
+                        <span
+                            class="block font-mono text-[10px] sm:text-xs text-metal-mid tracking-widest mt-1">DAYS</span>
+                    </div>
+                    <span class="font-display text-3xl sm:text-4xl md:text-6xl text-metal-dark">:</span>
+
+                    <!-- Hours -->
+                    <div class="text-center">
+                        <span id="hours"
+                            class="countdown-digit font-display text-4xl sm:text-5xl md:text-7xl text-snoonu-red text-glow">00</span>
+                        <span
+                            class="block font-mono text-[10px] sm:text-xs text-metal-mid tracking-widest mt-1">HRS</span>
+                    </div>
+                    <span class="font-display text-3xl sm:text-4xl md:text-6xl text-metal-dark">:</span>
+
+                    <!-- Minutes -->
+                    <div class="text-center">
+                        <span id="mins"
+                            class="countdown-digit font-display text-4xl sm:text-5xl md:text-7xl text-snoonu-red text-glow">00</span>
+                        <span
+                            class="block font-mono text-[10px] sm:text-xs text-metal-mid tracking-widest mt-1">MINS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TIMELINE SECTION
+         ========================================== -->
+    <section id="timeline" class="py-12 md:py-20 px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="reveal text-center mb-16">
+                <span class="font-mono text-snoonu-red text-sm tracking-widest">// SCHEDULE</span>
+                <h2 class="font-display text-4xl md:text-6xl text-white mt-2">THE <span
+                        class="text-snoonu-red">TIMELINE</span></h2>
+            </div>
+
+            <!-- Mobile: Vertical timeline | Desktop: Horizontal timeline -->
+            <div class="relative">
+                <!-- Horizontal line (desktop only) -->
+                <div
+                    class="hidden md:block absolute top-5 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-snoonu-red/50 to-transparent">
+                </div>
+
+                <!-- Timeline items -->
+                <div class="flex flex-col md:flex-row md:justify-between gap-6 md:gap-4">
+
+                    <!-- Item 1 -->
+                    <div class="reveal flex md:flex-col items-start md:items-center md:flex-1 relative">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full border border-snoonu-red/50 bg-snoonu-black shrink-0 shadow-[0_0_10px_rgba(227,30,36,0.3)] z-10">
+                            <span class="w-2.5 h-2.5 bg-snoonu-red rounded-full animate-pulse"></span>
+                        </div>
+                        <div
+                            class="ml-4 md:ml-0 md:mt-4 p-4 glass rounded-lg border border-glass-border hover:border-snoonu-red/50 transition-colors w-full">
+                            <span
+                                class="font-mono text-xs text-snoonu-red bg-snoonu-red/10 px-2 py-1 rounded border border-snoonu-red/20 inline-block mb-2">DEC
+                                7 - JAN 10</span>
+                            <span class="font-display text-lg text-white block mb-1">APPLICATION OPENS</span>
+                            <p class="font-body text-metal-mid text-sm">Registration period. Form your teams.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="reveal flex md:flex-col items-start md:items-center md:flex-1 relative">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full border border-glass-border bg-snoonu-black shrink-0 z-10">
+                            <span class="w-2.5 h-2.5 bg-metal-mid rounded-full"></span>
+                        </div>
+                        <div
+                            class="ml-4 md:ml-0 md:mt-4 p-4 glass rounded-lg border border-glass-border hover:border-snoonu-red/50 transition-colors w-full">
+                            <span
+                                class="font-mono text-xs text-metal-light bg-white/5 px-2 py-1 rounded border border-white/10 inline-block mb-2">JAN
+                                15 • 6-8 PM</span>
+                            <span class="font-display text-lg text-white block mb-1">DAY 1: KICKOFF</span>
+                            <p class="font-body text-metal-mid text-sm">Theme Introduction. Team Matching.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="reveal flex md:flex-col items-start md:items-center md:flex-1 relative">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full border border-glass-border bg-snoonu-black shrink-0 z-10">
+                            <span class="w-2.5 h-2.5 bg-metal-mid rounded-full"></span>
+                        </div>
+                        <div
+                            class="ml-4 md:ml-0 md:mt-4 p-4 glass rounded-lg border border-glass-border hover:border-snoonu-red/50 transition-colors w-full">
+                            <span
+                                class="font-mono text-xs text-metal-light bg-white/5 px-2 py-1 rounded border border-white/10 inline-block mb-2">JAN
+                                16 • 9 AM - 6 PM</span>
+                            <span class="font-display text-lg text-white block mb-1">DAY 2: BUILD</span>
+                            <p class="font-body text-metal-mid text-sm">Building Continues. Mentorship Workshops.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="reveal flex md:flex-col items-start md:items-center md:flex-1 relative">
+                        <div
+                            class="flex items-center justify-center w-10 h-10 rounded-full border border-glass-border bg-snoonu-black shrink-0 z-10">
+                            <span class="w-2.5 h-2.5 bg-metal-mid rounded-full"></span>
+                        </div>
+                        <div
+                            class="ml-4 md:ml-0 md:mt-4 p-4 glass rounded-lg border border-glass-border hover:border-snoonu-red/50 transition-colors w-full">
+                            <span
+                                class="font-mono text-xs text-metal-light bg-white/5 px-2 py-1 rounded border border-white/10 inline-block mb-2">JAN
+                                17 • 9 AM - 3 PM</span>
+                            <span class="font-display text-lg text-white block mb-1">DAY 3: FINALE</span>
+                            <p class="font-body text-metal-mid text-sm">Final Pitch & Awards Ceremony.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         TRACKS SECTION (Horizontal Carousel)
+         ========================================== -->
+    <section id="tracks" class="pt-4 pb-12 md:pt-8 md:pb-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- Section Header -->
+            <div class="reveal mb-12">
+                <span class="font-mono text-snoonu-red text-sm tracking-widest">// CHALLENGE TRACKS</span>
+                <h2 class="font-display text-4xl md:text-6xl text-white mt-2">PICK YOUR <span
+                        class="text-snoonu-red">ARENA</span></h2>
+            </div>
+
+            <!-- Track Cards Grid -->
+            <div class="reveal delay-200 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+
+                <!-- Track Card: Sustainability -->
+                <div class="track-card glass card-hover rounded-lg border border-glass-border overflow-hidden group">
+                    <div
+                        class="h-24 sm:h-32 bg-gradient-to-br from-green-900/30 to-snoonu-black relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-green-500/50 group-hover:text-green-400 transition-colors"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="absolute top-2 right-2 font-mono text-[9px] sm:text-[10px] px-1.5 py-0.5 bg-green-500/20 border border-green-500/30 rounded text-green-400">01</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <h3 class="font-display text-base sm:text-lg lg:text-xl text-white mb-1">SUSTAINABILITY</h3>
+                        <p
+                            class="font-body text-metal-mid text-[11px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3">
+                            Build solutions for a greener Qatar. Smart energy, waste reduction, carbon tracking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Track Card: AI/ML -->
+                <div class="track-card glass card-hover rounded-lg border border-glass-border overflow-hidden group">
+                    <div
+                        class="h-24 sm:h-32 bg-gradient-to-br from-purple-900/30 to-snoonu-black relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-purple-500/50 group-hover:text-purple-400 transition-colors"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="absolute top-2 right-2 font-mono text-[9px] sm:text-[10px] px-1.5 py-0.5 bg-purple-500/20 border border-purple-500/30 rounded text-purple-400">02</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <h3 class="font-display text-base sm:text-lg lg:text-xl text-white mb-1">AI / ML</h3>
+                        <p
+                            class="font-body text-metal-mid text-[11px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3">
+                            Push the boundaries of artificial intelligence. LLMs, computer vision, automation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Track Card: Gamification -->
+                <div class="track-card glass card-hover rounded-lg border border-glass-border overflow-hidden group">
+                    <div
+                        class="h-24 sm:h-32 bg-gradient-to-br from-cyan-900/30 to-snoonu-black relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-cyan-500/50 group-hover:text-cyan-400 transition-colors"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="absolute top-2 right-2 font-mono text-[9px] sm:text-[10px] px-1.5 py-0.5 bg-cyan-500/20 border border-cyan-500/30 rounded text-cyan-400">03</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <h3 class="font-display text-base sm:text-lg lg:text-xl text-white mb-1">GAMIFICATION</h3>
+                        <p
+                            class="font-body text-metal-mid text-[11px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3">
+                            Make everything engaging. Loyalty systems, interactive experiences, game mechanics.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Track Card: Wildcard -->
+                <div class="track-card glass card-hover rounded-lg border border-glass-border overflow-hidden group">
+                    <div
+                        class="h-24 sm:h-32 bg-gradient-to-br from-snoonu-red/30 to-snoonu-black relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <svg class="w-10 h-10 sm:w-12 sm:h-12 text-snoonu-red/50 group-hover:text-snoonu-red transition-colors"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="absolute top-2 right-2 font-mono text-[9px] sm:text-[10px] px-1.5 py-0.5 bg-snoonu-red/20 border border-snoonu-red/30 rounded text-snoonu-red">★</span>
+                    </div>
+                    <div class="p-3 sm:p-4">
+                        <h3 class="font-display text-base sm:text-lg lg:text-xl text-white mb-1">WILDCARD</h3>
+                        <p
+                            class="font-body text-metal-mid text-[11px] sm:text-xs leading-relaxed line-clamp-2 sm:line-clamp-3">
+                            Surprise us. No rules, no limits. Build something we've never seen before.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         REGISTRATION CTA SECTION
+         ========================================== -->
+    <section id="register" class="pt-4 pb-12 md:pt-8 md:pb-20 px-6 border-t border-glass-border">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="reveal">
+                <span class="font-mono text-snoonu-red text-sm tracking-widest">// JOIN THE REVOLUTION</span>
+                <h2 class="font-display text-4xl md:text-6xl text-white mt-4 mb-6">
+                    READY TO <span class="text-snoonu-red"
+                        style="text-shadow: 0 0 8px rgba(227, 30, 36, 0.3);">HACK</span>?
+                </h2>
+                <p class="font-body text-metal-light text-lg mb-10 max-w-xl mx-auto">
+                    Applications close January 10, 2026. Limited to 160 participants. Don't miss your shot at glory.
+                </p>
+
+                <!-- Download App CTA -->
+                <div class="glass rounded-lg p-8 border border-glass-border mb-8">
+                    <p class="font-display text-2xl text-white mb-2">REGISTER ON THE SNOONU APP</p>
+                    <p class="font-body text-metal-mid mb-6">Download the app and sign up to secure your spot</p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-4">
+                        <a href="https://snoonu.onelink.me/U3EL/u4zizilg" target="_blank" rel="noopener noreferrer"
+                            class="hover:opacity-80 transition-opacity">
+                            <img src="./assets/apple_store.png" alt="Download on App Store" class="h-12">
+                        </a>
+                        <a href="https://snoonu.onelink.me/U3EL/u4zizilg" target="_blank" rel="noopener noreferrer"
+                            class="hover:opacity-80 transition-opacity">
+                            <img src="./assets/playstore.png" alt="Get it on Google Play" class="h-12">
+                        </a>
+                        <a href="https://snoonu.onelink.me/U3EL/u4zizilg" target="_blank" rel="noopener noreferrer"
+                            class="hover:opacity-80 transition-opacity">
+                            <img src="./assets/app_galary.png" alt="Explore it on AppGallery" class="h-12">
+                        </a>
+                    </div>
+                </div>
+
+                <p class="font-mono text-xs text-metal-mid">
+                    By registering, you agree to our Terms & Conditions and Privacy Policy.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="bg-snoonu-black border-t border-glass-border py-8">
+        <div class="w-full px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+
+
+
+                <!-- Links -->
+                <div class="flex items-center gap-6">
+                    <a href="#" onclick="openModal('faq'); return false;"
+                        class="font-mono text-xs text-metal-mid hover:text-snoonu-red transition-colors uppercase tracking-wider">FAQ</a>
+                </div>
+
+                <!-- Social Icons -->
+                <div class="flex items-center gap-4">
+                    <a href="https://x.com/snoonu_qa?s=11&t=1oaDC7NQvVGdvWktohQpdg" target="_blank"
+                        rel="noopener noreferrer"
+                        class="w-10 h-10 glass rounded-full flex items-center justify-center text-metal-mid hover:text-snoonu-red hover:border-snoonu-red transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/snoonu?igsh=cTB6MjM0OXlxZGY2" target="_blank"
+                        rel="noopener noreferrer"
+                        class="w-10 h-10 glass rounded-full flex items-center justify-center text-metal-mid hover:text-snoonu-red hover:border-snoonu-red transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/snoonu-qatar" target="_blank" rel="noopener noreferrer"
+                        class="w-10 h-10 glass rounded-full flex items-center justify-center text-metal-mid hover:text-snoonu-red hover:border-snoonu-red transition-all">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="mt-6 pt-6 border-t border-glass-border text-center">
+                <p class="font-mono text-xs text-metal-mid">
+                    © 2026 Snoonu. All rights reserved. Built with 🔥 in Doha.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         MODAL: FAQ
+         ========================================== -->
+    <div id="modal-faq" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeModal('faq')"></div>
+        <div class="relative glass-stronger rounded-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto p-6 md:p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-display text-2xl text-white">QUESTIONS & ANSWERS</h3>
+                <button onclick="closeModal('faq')" class="text-metal-mid hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item border border-glass-border rounded-lg overflow-hidden">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors">
+                        <span class="font-body text-metal-light">Is there an age limit to the Hackathon?</span>
+                        <span class="faq-icon text-snoonu-red text-xl transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-4 pb-4 font-body text-sm text-metal-mid">
+                            We welcome everyone, from undergraduate, postgraduate to graduates in Qatar and outside of
+                            Qatar who can be physically present during the 3 event days.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item border border-glass-border rounded-lg overflow-hidden">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors">
+                        <span class="font-body text-metal-light">Do I need to have a team to participate?</span>
+                        <span class="faq-icon text-snoonu-red text-xl transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-4 pb-4 font-body text-sm text-metal-mid">
+                            You can register as an Individual. We will match you with a team and share your team details
+                            near the event date.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item border border-glass-border rounded-lg overflow-hidden">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors">
+                        <span class="font-body text-metal-light">What are the topics? Can I choose the topic before the
+                            Hackathon?</span>
+                        <span class="faq-icon text-snoonu-red text-xl transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-4 pb-4 font-body text-sm text-metal-mid">
+                            There are different problem statements, ranging from logistics and customer support to
+                            multi-vertical adoption, merchant and courier tools, and new business ideas. The topics will
+                            be specified at the event. Your team will choose one of the topics to focus on during the
+                            Hackathon.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item border border-glass-border rounded-lg overflow-hidden">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between p-4 text-left hover:bg-white/5 transition-colors">
+                        <span class="font-body text-metal-light">Is my participation in the Hackathon guaranteed?</span>
+                        <span class="faq-icon text-snoonu-red text-xl transition-transform duration-300">+</span>
+                    </button>
+                    <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                        <p class="px-4 pb-4 font-body text-sm text-metal-mid">
+                            Registration does not guarantee participation for individual participation. All applications
+                            are subject to team match availability and available capacity. The organizers reserve the
+                            right to accept or reject participants at their discretion.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         JAVASCRIPT: Countdown & Scroll Reveal
+         ========================================== -->
+    <script>
+        // ==========================================
+        // COUNTDOWN TIMER
+        // Set your event date here (January 15, 2026)
+        // ==========================================
+        const eventDate = new Date('Jan 15, 2026 18:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('mins').textContent = String(minutes).padStart(2, '0');
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('mins').textContent = '00';
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ==========================================
+        // SCROLL REVEAL ANIMATION
+        // ==========================================
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal);
+
+        // Trigger reveal on page load
+        document.addEventListener('DOMContentLoaded', reveal);
+
+        // ==========================================
+        // SMOOTH SCROLL FOR NAV LINKS
+        // ==========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ==========================================
+        // MODAL FUNCTIONS
+        // ==========================================
+        function openModal(modalName) {
+            const modal = document.getElementById(`modal-${modalName}`);
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalName) {
+            const modal = document.getElementById(`modal-${modalName}`);
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('[id^="modal-"]').forEach(modal => {
+                    if (!modal.classList.contains('hidden')) {
+                        const modalName = modal.id.replace('modal-', '');
+                        closeModal(modalName);
+                    }
+                });
+            }
+        });
+
+        // ==========================================
+        // FAQ ACCORDION
+        // ==========================================
+        function toggleFaq(button) {
+            const faqItem = button.closest('.faq-item');
+            const answer = faqItem.querySelector('.faq-answer');
+            const icon = faqItem.querySelector('.faq-icon');
+            const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+            // Close all FAQ items
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                item.style.maxHeight = '0px';
+            });
+            document.querySelectorAll('.faq-icon').forEach(item => {
+                item.style.transform = 'rotate(0deg)';
+            });
+
+            // Open clicked item if it wasn't already open
+            if (!isOpen) {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                icon.style.transform = 'rotate(45deg)';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
